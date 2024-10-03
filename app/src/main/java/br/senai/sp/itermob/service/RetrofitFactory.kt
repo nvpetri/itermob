@@ -17,7 +17,7 @@ class RetrofitFactory {
         return retrofitFactory.create(Usuarios::class.java)
     }
 
-    fun postUsuarioService(usuario: Usuario): Usuarios {
-        return retrofitFactory.create(Usuarios::class.java)
-    }
+//    fun postUsuarioService(usuario: Usuario): Usuarios {
+//        return retrofitFactory.create(Usuarios::class.java)
+//    }
 }

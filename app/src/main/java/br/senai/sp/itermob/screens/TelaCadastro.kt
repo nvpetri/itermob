@@ -1,5 +1,7 @@
 package br.senai.sp.itermob.screens
 
+import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +23,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -45,6 +49,11 @@ import androidx.compose.runtime.*
 import br.senai.sp.itermob.R
 import br.senai.sp.itermob.model.Usuario
 import br.senai.sp.itermob.service.RetrofitFactory
+import br.senai.sp.itermob.service.Usuarios
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +65,8 @@ fun TelaCadastro(navigationController: NavHostController) {
     var sobrenome by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var telefone by remember { mutableStateOf("") }
+    var snackbarHostState by remember { SnackbarHostState() }
+    var showSuccessSnackbar by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -137,18 +148,18 @@ fun TelaCadastro(navigationController: NavHostController) {
                     Button(
                         onClick = {
                             if (cpf.isNotEmpty() && email.isNotEmpty()) {
+
                                 val usuario = Usuario(cpf, nome, sobrenome, email, telefone)
-                                    val response = RetrofitFactory().postUsuarioService(usuario)
-                                    if (response.isSuccessful) {
-                                        navigationController.navigate())
-                                    } else {
-                                        Text(
-                                            "Erro ao cadastrar usuário",
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.Red
-                                        )
+                                RetrofitFactory().getUsuariosService().postUsuario(usuario).enqueue(object : Callback<Usuarios> {
+                                    override fun onResponse(p0: Call<Usuarios>, p1: Response<Usuarios>) {
+                                       var u = p1.body()!!
+                                       
                                     }
+
+                                    override fun onFailure(p0: Call<Usuarios>, p1: Throwable) {
+                                        TODO("Not yet implemented")
+                                    }
+                                })
                             } else {
                                 Text(
                                     "Preencha todos os campos",
@@ -167,18 +178,27 @@ fun TelaCadastro(navigationController: NavHostController) {
                             fontWeight = FontWeight.Bold
                         )
                     }
-                    if (showSuccessSnackbar) {
-                        LaunchedEffect(key1 = snackbarHostState) {
-                            snackbarHostState.showSnackbar("Usuário cadastrado com sucesso!")
-                            showSuccessSnackbar = false
-                        }
-                    }
+                   if (showSuccessSnackbar) {
+                       LaunchedEffect(key1 = snackbarHostState) {
+                           snackbarHostState.showSnackbar("Usuário cadastrado com sucesso!")
+                          showSuccessSnackbar = false
+                       }
+                   }
                 }
             }
         }
     }
 }
 
+
+
+
+//Text(
+//"Erro ao cadastrar usuário",
+//fontSize = 18.sp,
+//fontWeight = FontWeight.Bold,
+//color = Color.Red
+//)
 @Composable
 fun CustomTextField(
     value: String,
@@ -193,11 +213,10 @@ fun CustomTextField(
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
+        colors = TextFieldDefaults.colors(focusedContainerColor = Color.Transparent),
         label = { Text(label, fontSize = 18.sp, color = Color.Gray) }
     )
 }
-
 @Preview(showSystemUi = true)
 @Composable
 fun TelaCadastroPreview() {
