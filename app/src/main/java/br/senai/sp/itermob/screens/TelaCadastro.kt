@@ -185,6 +185,7 @@ fun TelaCadastro(navigationController: NavHostController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(
     value: String,
@@ -192,21 +193,14 @@ fun CustomTextField(
     label: String,
     keyboardType: KeyboardType = KeyboardType.Text
 ) {
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp),
-        value = value,
-        onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
-        label = { Text(label, fontSize = 18.sp, color = Color.Gray) }
-    )
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun TelaCadastroPreview() {
-    val navController = remember { NavHostController(LocalContext.current) }
-    TelaCadastro(navigationController = navController)
+//    TextField(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(top = 10.dp),
+//        value = value,
+//        onValueChange = onValueChange,
+//        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+//        colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
+//        label = { Text(label, fontSize = 18.sp, color = Color.Gray) }
+//    )
 }
