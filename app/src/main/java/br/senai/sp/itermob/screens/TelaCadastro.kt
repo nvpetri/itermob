@@ -1,5 +1,6 @@
 package br.senai.sp.itermob.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -45,17 +46,22 @@ import androidx.compose.runtime.*
 import br.senai.sp.itermob.R
 import br.senai.sp.itermob.model.Usuario
 import br.senai.sp.itermob.service.RetrofitFactory
+import br.senai.sp.itermob.service.Usuarios
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaCadastro(navigationController: NavHostController) {
 
-    var cpf by remember { mutableStateOf("") }
-    var nome by remember { mutableStateOf("") }
-    var sobrenome by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var telefone by remember { mutableStateOf("") }
+    var cpf = remember { mutableStateOf("") }
+    var nome = remember { mutableStateOf("") }
+    var sobrenome = remember { mutableStateOf("") }
+    var email = remember { mutableStateOf("") }
+    var telefone = remember { mutableStateOf("") }
+    val retrofitFactory = RetrofitFactory()
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -77,7 +83,9 @@ fun TelaCadastro(navigationController: NavHostController) {
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Voltar",
                     tint = Color.White,
-                    modifier = Modifier.width(50.dp).height(50.dp)
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(50.dp)
                 )
             }
             Box(
@@ -89,7 +97,9 @@ fun TelaCadastro(navigationController: NavHostController) {
                 Image(
                     painter = painterResource(id = R.drawable.onibus),
                     contentDescription = "Onibus Image",
-                    modifier = Modifier.fillMaxSize().width(150.dp)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .width(150.dp)
                 )
             }
             Spacer(modifier = Modifier.height(30.dp))
@@ -102,77 +112,73 @@ fun TelaCadastro(navigationController: NavHostController) {
                     .offset(y = (-80).dp)
             ) {
                 CustomTextField(
-                    value = cpf,
-                    onValueChange = { cpf = it },
+                    value = cpf.value,
+                    onValueChange = { cpf.value = it },
                     label = "CPF",
                     keyboardType = KeyboardType.Number
                 )
                 CustomTextField(
-                    value = nome,
-                    onValueChange = { nome = it },
+                    value = nome.value,
+                    onValueChange = { nome.value = it },
                     label = "Nome"
                 )
                 CustomTextField(
-                    value = sobrenome,
-                    onValueChange = { sobrenome = it },
+                    value = sobrenome.value,
+                    onValueChange = { sobrenome.value = it },
                     label = "Sobrenome"
                 )
                 CustomTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = email.value,
+                    onValueChange = { email.value = it },
                     label = "E-mail"
                 )
                 CustomTextField(
-                    value = telefone,
-                    onValueChange = { telefone = it },
+                    value = telefone.value,
+                    onValueChange = { telefone.value = it },
                     label = "Telefone",
                     keyboardType = KeyboardType.Number
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))
                 Row(
-                    modifier = Modifier.width(400.dp).height(400.dp),
+                    modifier = Modifier
+                        .width(400.dp)
+                        .height(400.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Button(
                         onClick = {
-                            if (cpf.isNotEmpty() && email.isNotEmpty()) {
-                                val usuario = Usuario(cpf, nome, sobrenome, email, telefone)
-                                    val response = RetrofitFactory().postUsuarioService(usuario)
-                                    if (response.isSuccessful) {
-                                        navigationController.navigate())
-                                    } else {
-                                        Text(
-                                            "Erro ao cadastrar usuário",
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.Red
-                                        )
+                            val usuario = Usuario(
+                                cpf = cpf.value,
+                                nome = nome.value,
+                                sobrenome = sobrenome.value,
+                                email = email.value,
+                                telefone = telefone.value
+                            )
+
+                            val usuarios = retrofitFactory.postUsuarioService()
+                            usuarios.postUsuario(usuario)
+                                .enqueue(object : Callback<Usuarios> {
+                                    override fun onResponse(
+                                        call: Call<Usuarios>,
+                                        response: Response<Usuarios>
+                                    ) {
+                                        if (response.isSuccessful) {
+                                            navigationController.navigate("cadastroAutenticacao")
+                                        }
                                     }
-                            } else {
-                                Text(
-                                    "Preencha todos os campos",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Red
-                                )
-                            }
-                        },
-                        modifier = Modifier.width(150.dp).height(50.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xffFFC222))
-                    ) {
-                        Text(
-                            "Próximo",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                    if (showSuccessSnackbar) {
-                        LaunchedEffect(key1 = snackbarHostState) {
-                            snackbarHostState.showSnackbar("Usuário cadastrado com sucesso!")
-                            showSuccessSnackbar = false
+
+                                    override fun onFailure(call: Call<Usuarios>, t: Throwable) {
+
+                                    }
+
+                                })
+
                         }
+                    ) {
+                        Text(text = "entrar")
                     }
+
                 }
             }
         }
