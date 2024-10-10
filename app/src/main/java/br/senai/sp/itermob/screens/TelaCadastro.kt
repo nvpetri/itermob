@@ -47,6 +47,7 @@ import br.senai.sp.itermob.R
 import br.senai.sp.itermob.model.Usuario
 import br.senai.sp.itermob.service.RetrofitFactory
 import br.senai.sp.itermob.service.Usuarios
+import br.senai.sp.itermob.ui.theme.ItermobTheme
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -164,19 +165,34 @@ fun TelaCadastro(navigationController: NavHostController) {
                                         response: Response<Usuarios>
                                     ) {
                                         if (response.isSuccessful) {
-                                            navigationController.navigate("cadastroAutenticacao")
+                                            Log.i("response", response.body().toString())
+                                            navigationController.navigate("cadastroEndereco")
+                                        } else {
+                                            Log.i(
+                                                "response",
+                                                response.errorBody()?.string()?: "ERRO!"
+                                            )
                                         }
                                     }
 
-                                    override fun onFailure(call: Call<Usuarios>, t: Throwable) {
+                                    override fun onFailure(
+                                        call: Call<Usuarios>, t: Throwable
+                                    ) {
+                                        Log.i("response", t.toString())
 
                                     }
-
                                 })
-
-                        }
+                        },
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(Color(0xffFFC222)),
                     ) {
-                        Text(text = "entrar")
+                        Text(
+                            text = "Próximo",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
 
                 }
@@ -193,14 +209,22 @@ fun CustomTextField(
     label: String,
     keyboardType: KeyboardType = KeyboardType.Text
 ) {
-//    TextField(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(top = 10.dp),
-//        value = value,
-//        onValueChange = onValueChange,
-//        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-//        colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
-//        label = { Text(label, fontSize = 18.sp, color = Color.Gray) }
-//    )
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp),
+        value = value,
+        onValueChange = onValueChange,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        colors = TextFieldDefaults.colors(Color.Transparent),
+        label = { Text(label, fontSize = 18.sp, color = Color.Gray) }
+    )
+}
+
+@Preview
+@Composable
+fun TelaCadastro() {
+    ItermobTheme {
+        TelaCadastro(NavHostController(LocalContext.current))
+    }
 }

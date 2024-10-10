@@ -62,7 +62,7 @@ fun TelaCadastroEndereco(navigationController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-        Column (
+        Column(
             modifier = Modifier
                 .padding(10.dp)
         ) {
@@ -75,7 +75,9 @@ fun TelaCadastroEndereco(navigationController: NavHostController) {
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Voltar",
                     tint = Color.White,
-                    modifier = Modifier.width(50.dp).height(50.dp)
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(50.dp)
                 )
             }
             Box(
@@ -83,7 +85,7 @@ fun TelaCadastroEndereco(navigationController: NavHostController) {
                     .fillMaxWidth()
                     .height(300.dp)
                     .offset(y = (-50).dp)
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.onibus),
                     contentDescription = "Onibus Image",
@@ -95,96 +97,111 @@ fun TelaCadastroEndereco(navigationController: NavHostController) {
             }
             Spacer(modifier = Modifier.height(30.dp))
 
-            Column (
+            Column(
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .width(340.dp)
                     .height(500.dp)
                     .offset(y = (-80).dp)
-            ){
+            ) {
                 TextField(
-                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                     value = cep,
-                    onValueChange = {cep = it},
+                    onValueChange = { cep = it },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent
+                    colors = TextFieldDefaults.colors(
+                        Color.Transparent
                     ),
                     label = {
-                        Text("CEP",
+                        Text(
+                            "CEP",
                             fontSize = 18.sp,
                             color = Color.Gray
                         )
                     }
                 )
                 TextField(
-                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                     value = rua,
-                    onValueChange = {rua = it},
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent
+                    onValueChange = { rua = it },
+                    colors = TextFieldDefaults.colors(
+                        Color.Transparent
                     ),
                     label = {
-                        Text("Rua",
+                        Text(
+                            "Rua",
                             fontSize = 18.sp,
                             color = Color.Gray
                         )
                     }
                 )
                 TextField(
-                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                     value = cidade,
-                    onValueChange = {cidade = it},
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent
+                    onValueChange = { cidade = it },
+                    colors = TextFieldDefaults.colors(
+                        Color.Transparent
                     ),
                     label = {
-                        Text("Cidade",
+                        Text(
+                            "Cidade",
                             fontSize = 18.sp,
                             color = Color.Gray
                         )
                     }
                 )
                 TextField(
-                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                     value = estado,
-                    onValueChange = {estado = it},
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
+                    onValueChange = { estado = it },
+                    colors = TextFieldDefaults.colors(
+                        Color.Transparent,
                     ),
                     label = {
-                        Text("Estado",
+                        Text(
+                            "Estado",
                             fontSize = 18.sp,
                             color = Color.Gray
                         )
                     }
                 )
                 TextField(
-                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                     value = numero,
-                    onValueChange = {numero = it},
+                    onValueChange = { numero = it },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent
+                    colors = TextFieldDefaults.colors(
+                        Color.Transparent
                     ),
                     label = {
-                        Text("Número",
+                        Text(
+                            "Número",
                             fontSize = 18.sp,
                             color = Color.Gray
                         )
                     }
                 )
                 Spacer(modifier = Modifier.height(50.dp))
-                Row (
+                Row(
                     modifier = Modifier
                         .width(400.dp)
                         .height(400.dp),
                     horizontalArrangement = Arrangement.Center
-                ){
+                ) {
                     Button(
                         onClick = {
                             navigationController.navigate("cadastroAutenticacao")

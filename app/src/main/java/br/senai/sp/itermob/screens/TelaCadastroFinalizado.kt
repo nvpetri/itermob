@@ -52,14 +52,14 @@ fun TelaCadastroFinalizado(navigationController: NavController) {
                     .fillMaxSize()
                     .background(color = Color.White),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Card(
                     modifier = Modifier
                         .padding(bottom = 200.dp)
                         .size(150.dp),
                     shape = RoundedCornerShape(100.dp),
                     colors = CardDefaults.cardColors(Color.White),
-                ){
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.check),
                         contentDescription = null,
