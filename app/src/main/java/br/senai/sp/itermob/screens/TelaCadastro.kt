@@ -156,7 +156,6 @@ fun TelaCadastro(navigationController: NavHostController) {
                                 email = email.value,
                                 telefone = telefone.value
                             )
-
                             val usuarios = retrofitFactory.postUsuarioService()
                             usuarios.postUsuario(usuario)
                                 .enqueue(object : Callback<Usuarios> {
