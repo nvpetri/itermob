@@ -10,7 +10,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,16 +17,21 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import br.senai.sp.itermob.ui.theme.ItermobTheme
-import com.google.android.gms.maps.GoogleMap
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 
 @Composable
 fun TelaHome(navController: NavController) {
     val saoPaulo = LatLng(-23.5505, -46.6333) // Latitude e longitude de São Paulo
+
+    // Definindo o estado da posição da câmera corretamente
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraUpdateFactory.newLatLngZoom(saoPaulo, 10f).cameraPosition
+        position = CameraPosition.fromLatLngZoom(saoPaulo, 10f)
     }
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -42,16 +46,22 @@ fun TelaHome(navController: NavController) {
                     .height(100.dp)
                     .background(Color.White)
             ) {}
-            Column {
-                GoogleMap(
 
-                ) {
-                    Marker(
-                        position = saoPaulo,
-                        title = "São Paulo",
-                        snippet = "A maior cidade do Brasil!"
-                    )
-                }
+            // Google Map Composable
+            GoogleMap(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                cameraPositionState = cameraPositionState
+            ) {
+                // Marcador no mapa
+                Marker(
+                    state = com.google.maps.android.compose.rememberMarkerState(
+                        position = saoPaulo
+                    ),
+                    title = "São Paulo",
+                    snippet = "A maior cidade do Brasil!"
+                )
             }
 
             // Chamando o LocationPermissionRequest
@@ -60,14 +70,11 @@ fun TelaHome(navController: NavController) {
     }
 }
 
-
 @Composable
 fun LocationPermissionRequest() {
-    // Estados para armazenar se as permissões foram concedidas
     var hasFineLocationPermission by remember { mutableStateOf(false) }
     var hasCoarseLocationPermission by remember { mutableStateOf(false) }
 
-    // Lançador de permissões
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -77,7 +84,6 @@ fun LocationPermissionRequest() {
 
     val context = LocalContext.current
 
-    // Verificação das permissões
     LaunchedEffect(Unit) {
         hasFineLocationPermission = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
@@ -87,7 +93,6 @@ fun LocationPermissionRequest() {
             context, Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-        // Se não estiverem concedidas, lança o permissionLauncher
         if (!hasFineLocationPermission || !hasCoarseLocationPermission) {
             permissionLauncher.launch(
                 arrayOf(
@@ -101,15 +106,10 @@ fun LocationPermissionRequest() {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun TelaHomePrev() {
-    ItermobTheme {
-        // Armazena o contexto em uma variável separada
-        val context = LocalContext.current
+fun TelaHomePrev() {
+    val context = LocalContext.current
+    val navController = remember { NavHostController(context) }
 
-        // Cria o NavController usando o contexto fora do remember
-        val navController = remember { NavHostController(context) }
+    TelaHome(navController = navController)
 
-        TelaHome(navController = navController)
-    }
 }
-

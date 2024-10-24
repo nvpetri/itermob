@@ -22,6 +22,7 @@ import br.senai.sp.itermob.screens.TelaCadastroFinalizado
 import br.senai.sp.itermob.screens.TelaConfiguracoes
 import br.senai.sp.itermob.screens.TelaHome
 import br.senai.sp.itermob.screens.TelaLogin
+import br.senai.sp.itermob.screens.TelaSplash
 import br.senai.sp.itermob.ui.theme.ItermobTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,9 +35,10 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navigationControl,
-                    startDestination = "home"
+                    startDestination = "splash"
                 )
                 {
+                    composable(route = "splash") { TelaSplash(navigationControl) }
                     composable(route = "cadastro") { TelaCadastro(navigationControl) }
                     composable(route = "cadastroEndereco") { TelaCadastroEndereco(navigationControl) }
                     composable(route = "cadastroAutenticacao") { TelaCadastroAutenticacao(navigationControl) }
