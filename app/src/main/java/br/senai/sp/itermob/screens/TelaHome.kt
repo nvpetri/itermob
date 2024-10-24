@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,97 +33,145 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 
+
 @Composable
 fun TelaHome(navController: NavController) {
     val saoPaulo = LatLng(-23.5505, -46.6333) // Latitude e longitude de São Paulo
-
-    // Definindo o estado da posição da câmera corretamente
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(saoPaulo, 10f)
+        position = CameraPosition.fromLatLngZoom(saoPaulo, 14f) // Zoom ajustado
     }
-
     var pesquisa by remember { mutableStateOf("") }
 
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    // Layout Principal
+    Column(modifier = Modifier.fillMaxSize().background(Color(0xFFF4C430))) { // Cor ajustada
+
+        // Barra de Busca e Ícone de Notificação
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedTextField(
+                value = pesquisa,
+                onValueChange = { pesquisa = it },
+                placeholder = { Text("Qual seu destino?") },
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White
+                )
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.notificacao),
+                contentDescription = "Notificação",
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(Color.White, RoundedCornerShape(20.dp))
+                    .padding(8.dp)
+            )
+        }
+
+        // Container do Mapa com Ícone de Alerta
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .border(2.dp, Color.White, RoundedCornerShape(20.dp))
+        ) {
+            GoogleMap(
+                modifier = Modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState
+            ) {
+                Marker(
+                    state = com.google.maps.android.compose.rememberMarkerState(
+                        position = saoPaulo
+                    ),
+                    title = "São Paulo",
+                    snippet = "A maior cidade do Brasil!"
+                )
+            }
+
+            // Ícone de Alerta sobre o Mapa
+            Image(
+                painter = painterResource(id = R.drawable.alert_icon),
+                contentDescription = "Alerta",
+                modifier = Modifier
+                    .size(56.dp)
+                    .align(Alignment.TopEnd) // Ícone movido para o topo
+                    .padding(16.dp)
+                    .background(Color.Yellow, shape = RoundedCornerShape(28.dp))
+                    .border(2.dp, Color.Black, shape = RoundedCornerShape(28.dp)) // Adicionada borda preta
+                    .padding(10.dp)
+            )
+        }
+
+        // Seção de Favoritos e Rotas
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(116.dp)
-                    .zIndex(1f)
-            ) {
-                Image(
-                    painter = painterResource
-                        (id = R.drawable.bolha),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+            Text(
+                text = "⭐ Favoritos",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-            }
-            Row (
-                modifier = Modifier
-                    .offset(y = (-90).dp, x = 40.dp)
-                    .zIndex(1f)
-            ){
-                OutlinedTextField(
-                    value = pesquisa,
-                    onValueChange = { pesquisa = it },
-                    label = { Text("Qual o seu destino?")},
-                    modifier = Modifier
-                        .width(250.dp)
-                        .height(50.dp),
-                    shape = RoundedCornerShape(20.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color.Transparent,
-                        unfocusedBorderColor = Color.Transparent,
-                        unfocusedContainerColor = Color.White,
-                        focusedContainerColor = Color.White,
-                    )
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.notificacao),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .width(30.dp)
-                        .height(30.dp)
-                        .offset(x = 10.dp, y = 14.dp)
-                )
-            }
+            FavoriteRouteCard("25 - Jd. Popular", "5 min")
+            Spacer(modifier = Modifier.height(8.dp))
+            FavoriteRouteCard("831 - Trevo Alphaville", "5 min")
+        }
 
-            Column(
-                modifier = Modifier
-                    .offset(y = (-74).dp)
-                    .fillMaxSize()
-                    .zIndex(0f)
-                    .background(Color.Yellow)
-            ){
-                // Google Map Composable
-                //GoogleMap(
-                  //  modifier = Modifier
-                    //    .fillMaxSize()
-                      //  .weight(1f),
-                    //cameraPositionState = cameraPositionState
-                //) {
-                    // Marcador no mapa
-                  //  Marker(
-                    //    state = com.google.maps.android.compose.rememberMarkerState(
-                      //      position = saoPaulo
-                       // ),
-                       // title = "São Paulo",
-                       // snippet = "A maior cidade do Brasil!"
-                    //)
-                //}
-            }
+        // Rodapé com Ícones
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .background(Color(0xFFF4C430)), // Cor ajustada
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(painter = painterResource(id = R.drawable.icon_refresh), contentDescription = "", modifier = Modifier.size(28.dp))
+            Icon(painter = painterResource(id = R.drawable.icon_home), contentDescription = "", modifier = Modifier.size(28.dp))
+            Icon(painter = painterResource(id = R.drawable.icon_favorite), contentDescription = "", modifier = Modifier.size(28.dp))
+            Icon(painter = painterResource(id = R.drawable.icon_settings), contentDescription = "", modifier = Modifier.size(28.dp))
+        }
+    }
 
-            // Chamando o LocationPermissionRequest
-            LocationPermissionRequest()
+    // Solicitação de Permissões de Localização
+    LocationPermissionRequest()
+}
+
+@Composable
+fun FavoriteRouteCard(routeName: String, time: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(20.dp))
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = routeName)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = R.drawable.sound_icon),
+                contentDescription = "Som",
+                modifier = Modifier.size(20.dp) // Ícone de som adicionado
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(text = time)
         }
     }
 }
@@ -135,7 +185,8 @@ fun LocationPermissionRequest() {
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         hasFineLocationPermission = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
-        hasCoarseLocationPermission = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+        hasCoarseLocationPermission =
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
     }
 
     val context = LocalContext.current

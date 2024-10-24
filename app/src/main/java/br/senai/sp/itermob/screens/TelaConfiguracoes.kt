@@ -37,7 +37,7 @@ import androidx.navigation.NavHostController
 import br.senai.sp.itermob.R
 
 @Composable
-fun TelaConfiguracoes() {
+fun TelaConfiguracoes(navController: NavHostController) {
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -245,7 +245,7 @@ fun TelaConfiguracoes() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun TelaConfiguracoesPrev() {
-    TelaConfiguracoes()
+  //  TelaConfiguracoes()
 }
 
 
