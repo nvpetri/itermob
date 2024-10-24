@@ -100,23 +100,24 @@ fun TelaHome(navController: NavController) {
                     .offset(y = (-74).dp)
                     .fillMaxSize()
                     .zIndex(0f)
+                    .background(Color.Yellow)
             ){
                 // Google Map Composable
-                GoogleMap(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f),
-                    cameraPositionState = cameraPositionState
-                ) {
+                //GoogleMap(
+                  //  modifier = Modifier
+                    //    .fillMaxSize()
+                      //  .weight(1f),
+                    //cameraPositionState = cameraPositionState
+                //) {
                     // Marcador no mapa
-                    Marker(
-                        state = com.google.maps.android.compose.rememberMarkerState(
-                            position = saoPaulo
-                        ),
-                        title = "São Paulo",
-                        snippet = "A maior cidade do Brasil!"
-                    )
-                }
+                  //  Marker(
+                    //    state = com.google.maps.android.compose.rememberMarkerState(
+                      //      position = saoPaulo
+                       // ),
+                       // title = "São Paulo",
+                       // snippet = "A maior cidade do Brasil!"
+                    //)
+                //}
             }
 
             // Chamando o LocationPermissionRequest
