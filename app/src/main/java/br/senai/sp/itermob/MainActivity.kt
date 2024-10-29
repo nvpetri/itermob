@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
                     composable(route = "cadastroFinalizado") { TelaCadastroFinalizado(navigationControl) }
                     composable(route = "login") { TelaLogin(navigationControl) }
                     composable(route = "configuracoes") { TelaConfiguracoes(navigationControl) }
+
                 }
             }
         }

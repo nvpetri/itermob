@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -142,10 +143,38 @@ fun TelaHome(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(painter = painterResource(id = R.drawable.icon_refresh), contentDescription = "", modifier = Modifier.size(28.dp))
-            Icon(painter = painterResource(id = R.drawable.icon_home), contentDescription = "", modifier = Modifier.size(28.dp))
-            Icon(painter = painterResource(id = R.drawable.icon_favorite), contentDescription = "", modifier = Modifier.size(28.dp))
-            Icon(painter = painterResource(id = R.drawable.icon_settings), contentDescription = "", modifier = Modifier.size(28.dp))
+            Icon(painter = painterResource(id = R.drawable.icon_refresh),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(28.dp)
+                    .clickable {
+                        navController.navigate("login")
+                    }
+            )
+            Icon(painter = painterResource(id = R.drawable.icon_home),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(28.dp)
+                    .clickable {
+
+                    }
+            )
+            Icon(painter = painterResource(id = R.drawable.icon_favorite),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(28.dp)
+                    .clickable {
+
+                    }
+            )
+            Icon(painter = painterResource(id = R.drawable.icon_settings),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(28.dp)
+                    .clickable {
+                        navController.navigate("configuracoes")
+                    }
+            )
         }
     }
 

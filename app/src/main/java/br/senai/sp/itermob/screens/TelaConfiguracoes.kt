@@ -4,6 +4,7 @@ package br.senai.sp.itermob.screens
 import android.graphics.Rect
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -236,6 +238,48 @@ fun TelaConfiguracoes(navController: NavHostController) {
             }
 
             }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .background(Color(0xFFF4C430)), // Cor ajustada
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(painter = painterResource(id = R.drawable.icon_refresh),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable{
+                            navController.navigate("login")
+                        }
+                )
+                Icon(painter = painterResource(id = R.drawable.home_white),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable {
+                            navController.navigate("home")
+
+                        }
+                )
+                Icon(painter = painterResource(id = R.drawable.icon_favorite),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable {
+
+                        }
+                )
+                Icon(painter = painterResource(id = R.drawable.config_black),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable {
+                            navController.navigate("configuracoes")
+                        }
+                )
+            }
 
            }
         }
@@ -245,7 +289,7 @@ fun TelaConfiguracoes(navController: NavHostController) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun TelaConfiguracoesPrev() {
-  //  TelaConfiguracoes()
+ //  TelaConfiguracoes
 }
 
 
