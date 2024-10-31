@@ -143,38 +143,152 @@ fun TelaHome(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(painter = painterResource(id = R.drawable.icon_refresh),
-                contentDescription = "",
+            //historico
+            Box(
                 modifier = Modifier
-                    .size(28.dp)
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
                     .clickable {
                         navController.navigate("login")
                     }
-            )
-            Icon(painter = painterResource(id = R.drawable.icon_home),
-                contentDescription = "",
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_refresh),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //home
+            Box(
                 modifier = Modifier
-                    .size(28.dp)
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(60.dp)
+                    .clickable {
+                        navController.navigate("home")
+
+                    }
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_home),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            //chat
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
                     .clickable {
 
                     }
-            )
-            Icon(painter = painterResource(id = R.drawable.icon_favorite),
-                contentDescription = "",
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_favorite),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //config
+            Box(
                 modifier = Modifier
-                    .size(28.dp)
+                    .background(Color(0xFFEDE2C4), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp) // Tamanho do background
+                    .clickable { navController.navigate("configuracoes") }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_settings),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp) // Tamanho do ícone
+                        .align(Alignment.Center)
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .offset(y = 90.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            //historico
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable {
+                        navController.navigate("login")
+                    }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_refresh),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //home
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFEDE2C4), shape = RoundedCornerShape(40.dp))
+                    .size(60.dp)
+                    .clickable {
+                        navController.navigate("home")
+
+                    }
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_home),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            //chat
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
                     .clickable {
 
                     }
-            )
-            Icon(painter = painterResource(id = R.drawable.icon_settings),
-                contentDescription = "",
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_favorite),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //config
+            Box(
                 modifier = Modifier
-                    .size(28.dp)
-                    .clickable {
-                        navController.navigate("configuracoes")
-                    }
-            )
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp) // Tamanho do background
+                    .clickable { navController.navigate("configuracoes") }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_settings),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp) // Tamanho do ícone
+                        .align(Alignment.Center)
+                )
+            }
         }
     }
 
