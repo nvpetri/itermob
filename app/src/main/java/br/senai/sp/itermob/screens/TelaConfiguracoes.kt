@@ -295,7 +295,7 @@ fun TelaConfiguracoes(navController: NavHostController) {
                         .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
                         .size(45.dp)
                         .clickable {
-
+                            navController.navigate("fac")
                         }
                 ){
                     Icon(

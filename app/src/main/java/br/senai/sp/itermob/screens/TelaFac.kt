@@ -2,6 +2,8 @@ package br.senai.sp.itermob.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,9 +11,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -65,15 +71,121 @@ fun TelaFac(navController: NavHostController){
                 )
             }
             Spacer(modifier = Modifier.width(50.dp))
+            Column(
+                modifier = Modifier
+                    .padding(top = 18.dp)
+                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .padding(top = 50.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+
+            ){
+                Card (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp)
+                        .padding(top = 50.dp),
+                        backgroundColor = Color(0xffFFF6E0),
+                    shape = RoundedCornerShape(40.dp)
+                ){
+                    Card (
+                        modifier = Modifier
+                            .padding(top = 35.dp)
+                            .size(30.dp)
+                            .width(30.dp),
+                        backgroundColor = Color.Black,
+                        shape = RoundedCornerShape(12.dp)
+
+                    ){
+
+                    }
+
+                }
+
+
+            }
+
+            }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .offset(y = 370.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            //historico
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(500.dp)
-                    .background(Color.Gray),
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable {
+                        navController.navigate("login")
+                    }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_refresh),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //home
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable {
+                        navController.navigate("home")
 
-            )
+                    }
+            ){
+                Icon(painter = painterResource(id = R.drawable.home_white),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            //chat
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFEDE2C4), shape = RoundedCornerShape(40.dp))
+                    .size(60.dp)
+                    .clickable {
+                        navController.navigate("fac")
+                    }
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.chat_black),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //config
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp) // Tamanho do background
+                    .clickable { navController.navigate("configuracoes") }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.config_black),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp) // Tamanho do ícone
+                        .align(Alignment.Center)
+                )
             }
         }
+
+     }
+
     }
 
 @Preview(showBackground = true, showSystemUi = true)
