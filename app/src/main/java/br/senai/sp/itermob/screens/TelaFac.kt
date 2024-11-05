@@ -80,30 +80,215 @@ fun TelaFac(navController: NavHostController){
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ){
-                Card (
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(400.dp)
-                        .padding(top = 50.dp),
-                        backgroundColor = Color(0xffFFF6E0),
+                        .height(500.dp)
+                        .padding(top = 20.dp)
+                        .background(
+                            color = Color(0xffFFF6E0),
                     shape = RoundedCornerShape(40.dp)
-                ){
-                    Card (
+                )
+                ) {
+                    Column(
                         modifier = Modifier
-                            .padding(top = 35.dp)
-                            .size(30.dp)
-                            .width(30.dp),
-                        backgroundColor = Color.Black,
-                        shape = RoundedCornerShape(12.dp)
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp) // Espaço entre as linhas de cards
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 2.dp), // Espaço entre os cards dentro da Box
+                            horizontalArrangement = Arrangement.spacedBy(8.dp), // Espaço entre os cards
+                            verticalAlignment = Alignment.CenterVertically // Alinha os cards verticalmente no centro
+                        ) {
 
-                    ){
+                            //card 1
+                            Card(
+                                modifier = Modifier
+                                    .padding(5.dp)
+                                    .height(110.dp)
+                                    .width(130.dp),
+                                backgroundColor = Color.White,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(bottom = 20.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.pranchetas),
+                                        contentDescription = "Reporte image",
+                                        modifier = Modifier
+                                            .padding(top = 4.dp)
+                                            .size(60.dp)
+                                    )
+                                    Text(
+                                        text = "Reportar Item",
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.Bold,
 
+                                        )
+                                }
+                            }
+                            //card2
+                            Card(
+                                modifier = Modifier
+                                    .padding(20.dp)
+                                    .height(110.dp)
+                                    .width(140.dp),
+                                backgroundColor = Color.White,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(bottom = 20.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.megafone),
+                                        contentDescription = "Denuncia image",
+                                        modifier = Modifier
+                                            .padding(top = 4.dp)
+                                            .size(60.dp)
+                                    )
+                                    Text(
+                                        text = "Denúncias",
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.Bold,
+
+                                        )
+                                }
+                            }
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 2.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp), // Espaço entre os cards
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            //card 3
+                            Card(
+                                modifier = Modifier
+                                    .padding(5.dp)
+                                    .height(110.dp)
+                                    .width(130.dp),
+                                backgroundColor = Color.White,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(bottom = 20.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.telemarketing),
+                                        contentDescription = "Acompanhe aqui image",
+                                        modifier = Modifier
+                                            .padding(top = 4.dp)
+                                            .size(60.dp)
+                                    )
+                                    Text(
+                                        text = "Acompanhar",
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.Bold,
+
+                                        )
+                                }
+                            }
+                            //card 4
+                            Card(
+                                modifier = Modifier
+                                    .padding(20.dp)
+                                    .height(110.dp)
+                                    .width(140.dp),
+                                backgroundColor = Color.White,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(bottom = 20.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.duvidas),
+                                        contentDescription = "Duvidas image",
+                                        modifier = Modifier
+                                            .padding(top = 4.dp)
+                                            .size(60.dp)
+                                    )
+                                    Text(
+                                        text = "Dúvidas",
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.Bold,
+
+                                        )
+                                }
+                            }
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 2.dp), // Espaço entre os cards dentro da Box
+                            horizontalArrangement = Arrangement.Center, // Alinha o card no centro
+                            verticalAlignment = Alignment.CenterVertically // Alinha o card verticalmente
+                        ) {
+                            // Card centralizado
+                            Card(
+                                modifier = Modifier
+                                    .height(100.dp) // Altura ajustada
+                                    .width(160.dp), // Largura ajustada
+                                backgroundColor = Color.White,
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(bottom = 20.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.informacoes ),
+                                        contentDescription = "Informacoes image",
+                                        modifier = Modifier
+                                            .padding(top = 4.dp)
+                                            .size(50.dp) // Tamanho ajustado
+                                    )
+                                    Text(
+                                        text = "Feedback",
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            }
+                        }
                     }
+                }
+
+
+
 
                 }
 
 
-            }
+
+
+
 
             }
 
@@ -111,7 +296,7 @@ fun TelaFac(navController: NavHostController){
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp)
-                .offset(y = 370.dp),
+                .offset(y = 390.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ){
