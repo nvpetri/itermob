@@ -20,7 +20,10 @@ import br.senai.sp.itermob.screens.TelaCadastroAutenticacao
 import br.senai.sp.itermob.screens.TelaCadastroEndereco
 import br.senai.sp.itermob.screens.TelaCadastroFinalizado
 import br.senai.sp.itermob.screens.TelaConfiguracoes
+import br.senai.sp.itermob.screens.TelaDados
+import br.senai.sp.itermob.screens.TelaEndereco
 import br.senai.sp.itermob.screens.TelaFac
+import br.senai.sp.itermob.screens.TelaFeedback
 import br.senai.sp.itermob.screens.TelaHome
 import br.senai.sp.itermob.screens.TelaLogin
 import br.senai.sp.itermob.screens.TelaSplash
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navigationControl,
-                    startDestination = "configuracoes"
+                    startDestination = "splash"
                 )
                 {
                     composable(route = "splash") { TelaSplash(navigationControl) }
@@ -48,7 +51,9 @@ class MainActivity : ComponentActivity() {
                     composable(route = "login") { TelaLogin(navigationControl) }
                     composable(route = "configuracoes") { TelaConfiguracoes(navigationControl) }
                     composable(route = "fac") { TelaFac(navigationControl) }
-
+                    composable(route = "feedback") { TelaFeedback(navigationControl) }
+                    composable(route = "dadosPessoais") { TelaDados(navigationControl) }
+                    composable(route = "enderecos") { TelaEndereco(navigationControl) }
                 }
             }
         }

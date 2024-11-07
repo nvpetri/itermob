@@ -266,7 +266,7 @@ fun TelaFac(navController: NavController){
                                     .height(100.dp)
                                     .width(160.dp)
                                     .clickable {
-                                        navController.navigate("login")
+                                        navController.navigate("feedback")
                                     },
                                 backgroundColor = Color.White,
                                 shape = RoundedCornerShape(12.dp)
