@@ -250,8 +250,8 @@ fun TelaConfiguracoes(navController: NavHostController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
-                    .offset(y = 120.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                    .offset(y = 128.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
                 //historico

@@ -89,7 +89,7 @@ fun TelaFac(navController: NavController){
                         .background(
                             color = Color(0xffFFF6E0),
                     shape = RoundedCornerShape(40.dp)
-                )
+                        )
                 ) {
                     Column(
                         modifier = Modifier
@@ -109,7 +109,10 @@ fun TelaFac(navController: NavController){
                                 modifier = Modifier
                                     .padding(5.dp)
                                     .height(110.dp)
-                                    .width(130.dp),
+                                    .width(130.dp)
+                                    .clickable {
+                                        navController.navigate("login")
+                                    },
                                 backgroundColor = Color.White,
                                 shape = RoundedCornerShape(12.dp)
                             )
@@ -141,7 +144,10 @@ fun TelaFac(navController: NavController){
                                 modifier = Modifier
                                     .padding(20.dp)
                                     .height(110.dp)
-                                    .width(140.dp),
+                                    .width(140.dp)
+                                    .clickable {
+                                        navController.navigate("login")
+                                    },
                                 backgroundColor = Color.White,
                                 shape = RoundedCornerShape(12.dp)
                             )
@@ -181,7 +187,10 @@ fun TelaFac(navController: NavController){
                                 modifier = Modifier
                                     .padding(5.dp)
                                     .height(110.dp)
-                                    .width(130.dp),
+                                    .width(130.dp)
+                                    .clickable {
+                                        navController.navigate("login")
+                                    },
                                 backgroundColor = Color.White,
                                 shape = RoundedCornerShape(12.dp)
                             )
@@ -213,7 +222,10 @@ fun TelaFac(navController: NavController){
                                 modifier = Modifier
                                     .padding(20.dp)
                                     .height(110.dp)
-                                    .width(140.dp),
+                                    .width(140.dp)
+                                    .clickable {
+                                        navController.navigate("login")
+                                    },
                                 backgroundColor = Color.White,
                                 shape = RoundedCornerShape(12.dp)
                             )
@@ -251,8 +263,11 @@ fun TelaFac(navController: NavController){
                             // Card centralizado
                             Card(
                                 modifier = Modifier
-                                    .height(100.dp) // Altura ajustada
-                                    .width(160.dp), // Largura ajustada
+                                    .height(100.dp)
+                                    .width(160.dp)
+                                    .clickable {
+                                        navController.navigate("login")
+                                    },
                                 backgroundColor = Color.White,
                                 shape = RoundedCornerShape(12.dp)
                             ) {
