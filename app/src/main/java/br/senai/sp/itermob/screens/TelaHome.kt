@@ -1,7 +1,9 @@
 package br.senai.sp.itermob.screens
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -25,27 +27,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.itermob.R
 import br.senai.sp.itermob.ui.theme.ItermobTheme
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-
+import kotlinx.coroutines.launch
 
 @Composable
 fun TelaHome(navController: NavController) {
-    val saoPaulo = LatLng(-23.5505, -46.6333) // Latitude e longitude de São Paulo
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(saoPaulo, 14f) // Zoom ajustado
-    }
+    val context = LocalContext.current
+    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+
+    var currentLocation by remember { mutableStateOf<LatLng?>(null) }
     var pesquisa by remember { mutableStateOf("") }
 
-    // Layout Principal
-    Column(modifier = Modifier.fillMaxSize().background(Color(0xFFF4C430))) { // Cor ajustada
+    val cameraPositionState = rememberCameraPositionState()
 
+    LaunchedEffect(Unit) {
+        getLastKnownLocation(fusedLocationClient, context) { location ->
+            currentLocation = location
+            cameraPositionState.position = CameraPosition.fromLatLngZoom(location, 14f)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF4C430))
+    ) {
         // Barra de Busca e Ícone de Notificação
         Row(
             modifier = Modifier
@@ -82,7 +97,7 @@ fun TelaHome(navController: NavController) {
             )
         }
 
-        // Container do Mapa com Ícone de Alerta
+        // Mapa com localização atual
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -94,27 +109,16 @@ fun TelaHome(navController: NavController) {
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState
             ) {
-                Marker(
-                    state = com.google.maps.android.compose.rememberMarkerState(
-                        position = saoPaulo
-                    ),
-                    title = "São Paulo",
-                    snippet = "A maior cidade do Brasil!"
-                )
+                currentLocation?.let {
+                    Marker(
+                        state = com.google.maps.android.compose.rememberMarkerState(
+                            position = it
+                        ),
+                        title = "Sua localização",
+                        snippet = "Você está aqui!"
+                    )
+                }
             }
-
-            // Ícone de Alerta sobre o Mapa
-            Image(
-                painter = painterResource(id = R.drawable.alert_icon),
-                contentDescription = "Alerta",
-                modifier = Modifier
-                    .size(56.dp)
-                    .align(Alignment.TopEnd) // Ícone movido para o topo
-                    .padding(16.dp)
-                    .background(Color.Yellow, shape = RoundedCornerShape(28.dp))
-                    .border(2.dp, Color.Black, shape = RoundedCornerShape(28.dp)) // Adicionada borda preta
-                    .padding(10.dp)
-            )
         }
 
         // Seção de Favoritos e Rotas
@@ -128,168 +132,13 @@ fun TelaHome(navController: NavController) {
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-
             FavoriteRouteCard("25 - Jd. Popular", "5 min")
             Spacer(modifier = Modifier.height(8.dp))
             FavoriteRouteCard("831 - Trevo Alphaville", "5 min")
         }
 
         // Rodapé com Ícones
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .background(Color(0xFFF4C430)), // Cor ajustada
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            //historico
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
-                    .size(45.dp)
-                    .clickable {
-                        navController.navigate("login")
-                    }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_refresh),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(35.dp)
-                        .align(Alignment.Center)
-                )
-            }
-            //home
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
-                    .size(60.dp)
-                    .clickable {
-                        navController.navigate("home")
-
-                    }
-            ){
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_home),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .align(Alignment.Center)
-                )
-            }
-
-            //chat
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
-                    .size(45.dp)
-                    .clickable {
-                        navController.navigate("fac")
-                    }
-            ){
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_favorite),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(35.dp)
-                        .align(Alignment.Center)
-                )
-            }
-            //config
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFEDE2C4), shape = RoundedCornerShape(40.dp))
-                    .size(45.dp) // Tamanho do background
-                    .clickable { navController.navigate("configuracoes") }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_settings),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(35.dp) // Tamanho do ícone
-                        .align(Alignment.Center)
-                )
-            }
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .offset(y = 90.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            //historico
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
-                    .size(45.dp)
-                    .clickable {
-                        navController.navigate("login")
-                    }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_refresh),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(35.dp)
-                        .align(Alignment.Center)
-                )
-            }
-            //home
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFEDE2C4), shape = RoundedCornerShape(40.dp))
-                    .size(60.dp)
-                    .clickable {
-                        navController.navigate("home")
-
-                    }
-            ){
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_home),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .align(Alignment.Center)
-                )
-            }
-
-            //chat
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
-                    .size(45.dp)
-                    .clickable {
-                        navController.navigate("fac")
-                    }
-            ){
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_favorite),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(35.dp)
-                        .align(Alignment.Center)
-                )
-            }
-            //config
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
-                    .size(45.dp) // Tamanho do background
-                    .clickable { navController.navigate("configuracoes") }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_settings),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(35.dp) // Tamanho do ícone
-                        .align(Alignment.Center)
-                )
-            }
-        }
+        Footer(navController = navController)
     }
 
     // Solicitação de Permissões de Localização
@@ -311,7 +160,7 @@ fun FavoriteRouteCard(routeName: String, time: String) {
             Icon(
                 painter = painterResource(id = R.drawable.sound_icon),
                 contentDescription = "Som",
-                modifier = Modifier.size(20.dp) // Ícone de som adicionado
+                modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(text = time)
@@ -320,46 +169,90 @@ fun FavoriteRouteCard(routeName: String, time: String) {
 }
 
 @Composable
-fun LocationPermissionRequest() {
-    var hasFineLocationPermission by remember { mutableStateOf(false) }
-    var hasCoarseLocationPermission by remember { mutableStateOf(false) }
-
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        hasFineLocationPermission = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
-        hasCoarseLocationPermission =
-            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+fun Footer(navController: NavController) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp)
+            .background(Color(0xFFF4C430)),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        listOf(
+            R.drawable.icon_refresh to "login",
+            R.drawable.icon_home to "home",
+            R.drawable.icon_favorite to "fac",
+            R.drawable.icon_settings to "configuracoes"
+        ).forEach { (icon, route) ->
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable { navController.navigate(route) }
+            ) {
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = "",
+                    modifier = Modifier.size(35.dp).align(Alignment.Center)
+                )
+            }
+        }
     }
+}
 
+@Composable
+fun LocationPermissionRequest() {
     val context = LocalContext.current
+    var hasFineLocationPermission by remember { mutableStateOf(false) }
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        hasFineLocationPermission = granted
+    }
 
     LaunchedEffect(Unit) {
         hasFineLocationPermission = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-        hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (!hasFineLocationPermission || !hasCoarseLocationPermission) {
-            permissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
+        if (!hasFineLocationPermission) {
+            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+fun getLastKnownLocation(
+    fusedLocationClient: FusedLocationProviderClient,
+    context: Context,
+    onLocationReceived: (LatLng) -> Unit
+) {
+    // Verifique se a permissão foi concedida
+    if (ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    ) {
+        try {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                location?.let {
+                    onLocationReceived(LatLng(it.latitude, it.longitude))
+                }
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        }
+    } else {
+        // Permissão não concedida; tratar ou notificar o usuário
+        println("Permissão de localização não concedida.")
+    }
+}
+
+
+@Preview(showBackground = true)
 @Composable
-fun TelaHomePrev() {
-    val context = LocalContext.current
-    val navController = remember { NavHostController(context) }
-
-    TelaHome(navController = navController)
-
+fun TelaHomePreview() {
+    val navController = rememberNavController()
+    ItermobTheme {
+        TelaHome(navController = navController)
+    }
 }
