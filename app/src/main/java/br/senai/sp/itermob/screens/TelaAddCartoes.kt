@@ -177,7 +177,7 @@ fun TelaAddCartoes(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp)
-                .offset(y = 400.dp),
+                .offset(y = 390.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ){

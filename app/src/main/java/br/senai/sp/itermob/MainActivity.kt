@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navigationControl,
-                    startDestination = "splash"
+                    startDestination = "dadosPessoais"
                 )
                 {
                     composable(route = "splash") { TelaSplash(navigationControl) }
