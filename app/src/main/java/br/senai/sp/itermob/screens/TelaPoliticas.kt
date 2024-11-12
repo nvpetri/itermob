@@ -16,12 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,14 +27,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.itermob.R
+import java.time.format.TextStyle
 
 @Composable
-fun TelaAddCartoes(navController: NavController) {
+fun TelaPoliticas(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ){
@@ -58,7 +56,7 @@ fun TelaAddCartoes(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Text(
-                    text = "Cartões",
+                    text = "Políticas e termos",
                     fontSize = 35.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -75,100 +73,36 @@ fun TelaAddCartoes(navController: NavController) {
                         .padding(start = 0.dp)
                         .size(50.dp)
                         .clickable {
-                            navController.navigate("cartoesSalvos")
+                            navController.navigate("configuracoes")
                         }
                 )
             }
-            Box(
+            Spacer(modifier = Modifier.width(50.dp))
+            Column(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .offset(y = 95.dp)
-            ){
-                Image(
-                    painter = painterResource( id = R.drawable.cartao),
-                    contentDescription = " cartao image",
-                    modifier = Modifier
-                        .size(120.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(30.dp))
-            Column (
-                modifier = Modifier
-                    .padding(top = 90.dp)
-                    .fillMaxWidth(),
+                    .padding(top = 18.dp)
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Nome do titular")},
+                Text(
+                    text = "Políticas de privacidade",
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .offset(y = 30.dp)
+                )
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(55.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.White
-                    )
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Número do cartão")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.White
-                    )
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Data de validade")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.White
-                    )
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("CVV")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.White
-                    )
-                )
-            }
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                modifier = Modifier
-                    .width(400.dp)
-                    .height(400.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
+                        .height(400.dp)
+                        .padding(top = 40.dp)
+                        .background(
+                            color = Color(0xffFFF6E0),
+                            shape = RoundedCornerShape(40.dp)
+                        )
+                ){
 
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(50.dp),
-                    shape = RoundedCornerShape(30.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        Color(0xffFFC222)
-                    ),
-                ) {
-                    Text(
-                        "SALVAR",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
                 }
             }
         }
@@ -250,11 +184,10 @@ fun TelaAddCartoes(navController: NavController) {
             }
         }
     }
-    
-}
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun TelaAddCartoesPrev() {
-    TelaAddCartoes(navController = NavController(LocalContext.current))
 }
 
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun TelaPoliticasPrev() {
+    TelaPoliticas(navController = NavController(LocalContext.current))
+}

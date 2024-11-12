@@ -38,7 +38,7 @@ import androidx.navigation.NavController
 import br.senai.sp.itermob.R
 
 @Composable
-fun TelaAddCartoes(navController: NavController) {
+fun TelaAddEndereco(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ){
@@ -58,7 +58,7 @@ fun TelaAddCartoes(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Text(
-                    text = "Cartões",
+                    text = "Endereços salvos",
                     fontSize = 35.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -82,26 +82,25 @@ fun TelaAddCartoes(navController: NavController) {
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .offset(y = 95.dp)
+                    .offset(y = 50.dp)
             ){
                 Image(
-                    painter = painterResource( id = R.drawable.cartao),
-                    contentDescription = " cartao image",
+                    painter = painterResource( id = R.drawable.endereco),
+                    contentDescription = " endereco image",
                     modifier = Modifier
                         .size(120.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(30.dp))
             Column (
                 modifier = Modifier
-                    .padding(top = 90.dp)
+                    .padding(top = 60.dp)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("Nome do titular")},
+                    label = { Text("Cep") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -113,7 +112,7 @@ fun TelaAddCartoes(navController: NavController) {
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("Número do cartão")},
+                    label = { Text("Rua") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -125,7 +124,7 @@ fun TelaAddCartoes(navController: NavController) {
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("Data de validade")},
+                    label = { Text("Número") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -137,7 +136,7 @@ fun TelaAddCartoes(navController: NavController) {
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("CVV")},
+                    label = { Text("Cidade") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -145,30 +144,42 @@ fun TelaAddCartoes(navController: NavController) {
                         backgroundColor = Color.White
                     )
                 )
-            }
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                modifier = Modifier
-                    .width(400.dp)
-                    .height(400.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-
-                Button(
-                    onClick = { },
+                Spacer(modifier = Modifier.height(20.dp))
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    label = { Text("Estado") },
                     modifier = Modifier
-                        .width(150.dp)
-                        .height(50.dp),
-                    shape = RoundedCornerShape(30.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        Color(0xffFFC222)
-                    ),
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White
+                    )
+                )
+                Spacer(modifier = Modifier.height(30.dp))
+                Row(
+                    modifier = Modifier
+                        .width(400.dp)
+                        .height(400.dp),
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        "SALVAR",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(50.dp),
+                        shape = RoundedCornerShape(30.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            Color(0xffFFC222)
+                        ),
+                    ) {
+                        Text(
+                            "SALVAR",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
@@ -250,11 +261,12 @@ fun TelaAddCartoes(navController: NavController) {
             }
         }
     }
-    
-}
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun TelaAddCartoesPrev() {
-    TelaAddCartoes(navController = NavController(LocalContext.current))
+
 }
 
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun TelaAddEnderecoPrev() {
+    TelaAddEndereco(navController = NavController(LocalContext.current))
+}

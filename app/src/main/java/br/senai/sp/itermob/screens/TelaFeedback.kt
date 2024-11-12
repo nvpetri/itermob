@@ -60,7 +60,7 @@ fun TelaFeedback(navController: NavController) {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.informacoes),
-                    contentDescription = "chat image",
+                    contentDescription = "informacoes image",
                     modifier = Modifier
                         .size(45.dp)
                 )
