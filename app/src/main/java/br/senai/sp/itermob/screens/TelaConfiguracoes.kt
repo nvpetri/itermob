@@ -112,7 +112,10 @@ fun TelaConfiguracoes(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp)
-                        .size(80.dp, 60.dp),
+                        .size(80.dp, 60.dp)
+                        .clickable {
+                            navController.navigate("cartoesSalvos")
+                        },
                     shape = CircleShape,
                     colors = CardDefaults.cardColors(
                         containerColor = Color(0xffFFF6E0)
@@ -137,13 +140,12 @@ fun TelaConfiguracoes(navController: NavHostController) {
                         .padding(10.dp)
                         .size(80.dp, 60.dp)
                         .clickable {
-                            navController.navigate("enderecos")
+
                         },
                     shape = CircleShape,
                     colors = CardDefaults.cardColors(
                         containerColor = Color(0xffFFF6E0)
                     )
-
                 ) {
                     Row(
                         modifier = Modifier
@@ -161,7 +163,10 @@ fun TelaConfiguracoes(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp)
-                        .size(80.dp, 60.dp),
+                        .size(80.dp, 60.dp)
+                        .clickable {
+
+                        },
                     shape = CircleShape,
                     colors = CardDefaults.cardColors(
                         containerColor = Color(0xffFFF6E0)

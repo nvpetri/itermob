@@ -38,7 +38,7 @@ import androidx.navigation.NavController
 import br.senai.sp.itermob.R
 
 @Composable
-fun TelaEndereco(navController: NavController) {
+fun TelaAddCartoes(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ){
@@ -56,9 +56,9 @@ fun TelaEndereco(navController: NavController) {
         ){
             Row(
                 verticalAlignment = Alignment.CenterVertically
-            ) {
+            ){
                 Text(
-                    text = "Endereços",
+                    text = "Dados Pessoais",
                     fontSize = 35.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -67,7 +67,7 @@ fun TelaEndereco(navController: NavController) {
                 modifier = Modifier
                     .align(Alignment.Start)
                     .offset(y = 35.dp)
-            ) {
+            ){
                 Image(
                     painter = painterResource(id = R.drawable.seta),
                     contentDescription = "seta Image",
@@ -75,18 +75,18 @@ fun TelaEndereco(navController: NavController) {
                         .padding(start = 0.dp)
                         .size(50.dp)
                         .clickable {
-                            navController.navigate("configuracoes")
+                            navController.navigate("cartoesSalvos")
                         }
                 )
             }
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .offset(y = 40.dp)
+                    .offset(y = 95.dp)
             ){
                 Image(
-                    painter = painterResource( id = R.drawable.endereco),
-                    contentDescription = "endereco Image",
+                    painter = painterResource( id = R.drawable.cartao),
+                    contentDescription = " cartao image",
                     modifier = Modifier
                         .size(120.dp)
                 )
@@ -94,14 +94,14 @@ fun TelaEndereco(navController: NavController) {
             Spacer(modifier = Modifier.height(30.dp))
             Column (
                 modifier = Modifier
-                    .padding(top = 20.dp)
+                    .padding(top = 90.dp)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("CEP")},
+                    label = { Text("Nome do titular")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -113,7 +113,7 @@ fun TelaEndereco(navController: NavController) {
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("Rua")},
+                    label = { Text("Número do cartão")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -125,7 +125,7 @@ fun TelaEndereco(navController: NavController) {
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("Número")},
+                    label = { Text("Data de validade")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -137,19 +137,7 @@ fun TelaEndereco(navController: NavController) {
                 OutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("Cidade")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.White
-                    )
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Estado")},
+                    label = { Text("CVV")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -158,7 +146,7 @@ fun TelaEndereco(navController: NavController) {
                     )
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             Row(
                 modifier = Modifier
                     .width(400.dp)
@@ -189,7 +177,7 @@ fun TelaEndereco(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp)
-                .offset(y = 380.dp),
+                .offset(y = 400.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ){
@@ -262,11 +250,11 @@ fun TelaEndereco(navController: NavController) {
             }
         }
     }
+    
 }
-
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun TelaEnderecoPrev() {
-    TelaEndereco(navController = NavController(LocalContext.current))
+private fun TelaAddCartoesPrev() {
+    TelaAddCartoes(navController = NavController(LocalContext.current))
 }
+

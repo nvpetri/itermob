@@ -15,13 +15,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.itermob.screens.TelaAddCartoes
 import br.senai.sp.itermob.screens.TelaCadastro
 import br.senai.sp.itermob.screens.TelaCadastroAutenticacao
 import br.senai.sp.itermob.screens.TelaCadastroEndereco
 import br.senai.sp.itermob.screens.TelaCadastroFinalizado
+import br.senai.sp.itermob.screens.TelaCartoesSalvos
 import br.senai.sp.itermob.screens.TelaConfiguracoes
 import br.senai.sp.itermob.screens.TelaDados
-import br.senai.sp.itermob.screens.TelaEndereco
 import br.senai.sp.itermob.screens.TelaFac
 import br.senai.sp.itermob.screens.TelaFeedback
 import br.senai.sp.itermob.screens.TelaHome
@@ -53,7 +54,10 @@ class MainActivity : ComponentActivity() {
                     composable(route = "fac") { TelaFac(navigationControl) }
                     composable(route = "feedback") { TelaFeedback(navigationControl) }
                     composable(route = "dadosPessoais") { TelaDados(navigationControl) }
-                    composable(route = "enderecos") { TelaEndereco(navigationControl) }
+                    composable(route = "addCartoes") { TelaAddCartoes(navigationControl) }
+                    composable(route = "cartoesSalvos") { TelaCartoesSalvos(navigationControl) }
+
+
                 }
             }
         }
