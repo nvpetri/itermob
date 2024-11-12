@@ -102,7 +102,16 @@ fun TelaPoliticas(navController: NavController) {
                             shape = RoundedCornerShape(40.dp)
                         )
                 ){
-
+                  Text(
+                      text = "Na IterMob, sua privacidade é nossa prioridade. Estamos comprometidos em proteger suas informações pessoais e garantir transparência sobre como coletamos, usamos e armazenamos seus dados.\n" +
+                              "Ao usar nossos serviços, você concorda com a forma como gerenciamos suas informações conforme descrito nesta política. Para dúvidas, entre em contato conosco.",
+                      fontSize = 18.sp,
+                      color = Color.Gray,
+                      modifier = Modifier
+                          .padding(35.dp)
+                          .fillMaxSize(),
+                      textAlign = TextAlign.Center
+                  )
                 }
             }
         }
