@@ -24,6 +24,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +43,26 @@ import br.senai.sp.itermob.R
 
 @Composable
 fun TelaAddEndereco(navController: NavController) {
+
+    var cep by remember {
+        mutableStateOf("")
+    }
+
+    var rua by remember {
+        mutableStateOf("")
+    }
+
+    var numero by remember {
+        mutableStateOf("")
+    }
+
+    var cidade by remember {
+        mutableStateOf("")
+    }
+
+    var estado by remember {
+        mutableStateOf("")
+    }
     Surface(
         modifier = Modifier.fillMaxSize()
     ){
@@ -98,8 +122,8 @@ fun TelaAddEndereco(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = cep,
+                    onValueChange = { cep = it},
                     label = { Text("Cep") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -110,8 +134,8 @@ fun TelaAddEndereco(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = rua,
+                    onValueChange = { rua = it},
                     label = { Text("Rua") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -122,8 +146,8 @@ fun TelaAddEndereco(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = numero,
+                    onValueChange = { numero = it},
                     label = { Text("Número") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,8 +158,8 @@ fun TelaAddEndereco(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = cidade ,
+                    onValueChange = { cidade = it},
                     label = { Text("Cidade") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -146,8 +170,8 @@ fun TelaAddEndereco(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = estado ,
+                    onValueChange = { estado = it},
                     label = { Text("Estado") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -165,7 +189,7 @@ fun TelaAddEndereco(navController: NavController) {
                 ) {
 
                     Button(
-                        onClick = { },
+                        onClick = {   navController.navigate("enderecosSalvos") },
                         modifier = Modifier
                             .width(150.dp)
                             .height(50.dp),

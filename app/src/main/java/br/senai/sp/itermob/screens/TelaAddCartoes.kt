@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -24,6 +25,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +36,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +45,22 @@ import br.senai.sp.itermob.R
 
 @Composable
 fun TelaAddCartoes(navController: NavController) {
+
+    var nomeTitular by remember {
+        mutableStateOf("")
+    }
+    var numeroCartao by remember {
+        mutableStateOf("")
+    }
+
+    var data by remember {
+        mutableStateOf("")
+    }
+
+    var cvv by remember {
+        mutableStateOf("")
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ){
@@ -99,8 +121,8 @@ fun TelaAddCartoes(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = nomeTitular,
+                    onValueChange = { nomeTitular = it},
                     label = { Text("Nome do titular")},
                     modifier = Modifier
                         .fillMaxWidth()
@@ -111,20 +133,20 @@ fun TelaAddCartoes(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = numeroCartao,
+                    onValueChange = { numeroCartao = it},
                     label = { Text("Número do cartão")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White
-                    )
+                    ),
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = data,
+                    onValueChange = { data = it},
                     label = { Text("Data de validade")},
                     modifier = Modifier
                         .fillMaxWidth()
@@ -135,8 +157,8 @@ fun TelaAddCartoes(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = cvv,
+                    onValueChange = { cvv = it},
                     label = { Text("CVV")},
                     modifier = Modifier
                         .fillMaxWidth()
@@ -155,7 +177,9 @@ fun TelaAddCartoes(navController: NavController) {
             ) {
 
                 Button(
-                    onClick = { },
+                    onClick = {
+                        navController.navigate("cartoesSalvos")
+                    },
                     modifier = Modifier
                         .width(150.dp)
                         .height(50.dp),

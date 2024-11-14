@@ -135,7 +135,7 @@ fun TelaLogin(navigationController: NavHostController) {
                     },
                     visualTransformation = PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
-                        Color.Transparent
+                        Color.Black
                     ),
                     label = {
                         Text(

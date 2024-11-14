@@ -26,6 +26,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +45,18 @@ import br.senai.sp.itermob.R
 
 @Composable
 fun TelaDados(navController: NavController){
+
+    var nome by remember {
+        mutableStateOf("")
+    }
+
+    var numero by remember {
+        mutableStateOf("")
+    }
+
+    var email by remember {
+        mutableStateOf("")
+    }
     Surface(
         modifier = Modifier.fillMaxSize()
     ){
@@ -101,8 +117,8 @@ fun TelaDados(navController: NavController){
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = nome,
+                    onValueChange = { nome = it},
                     label = { Text("Nome")},
                     modifier = Modifier
                         .fillMaxWidth()
@@ -113,8 +129,8 @@ fun TelaDados(navController: NavController){
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = email,
+                    onValueChange = { email = it},
                     label = { Text("Número")},
                     modifier = Modifier
                         .fillMaxWidth()
@@ -125,8 +141,8 @@ fun TelaDados(navController: NavController){
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = numero,
+                    onValueChange = { numero = it},
                     label = { Text("E-mail")},
                     modifier = Modifier
                         .fillMaxWidth()

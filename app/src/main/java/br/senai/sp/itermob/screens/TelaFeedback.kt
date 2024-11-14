@@ -25,6 +25,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +44,11 @@ import br.senai.sp.itermob.R
 
 @Composable
 fun TelaFeedback(navController: NavController) {
+
+    var experiencia by remember {
+        mutableStateOf("")
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -122,17 +131,19 @@ fun TelaFeedback(navController: NavController) {
                             )
                         }
                         TextField(
-                            value = "",
-                            label = {
-                                Text(
-                                    "Digite aqui ",
-                                    fontSize = 16.sp
-                                )
-                            },
-                            onValueChange = {},
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(30.dp),
+                                .padding(top = 10.dp),
+                            value = experiencia,
+                            onValueChange = {
+                                experiencia = it },
+                            label = {
+                                Text(
+                                    "Digite aqui",
+                                    fontSize = 18.sp,
+                                    color = Color.Gray
+                                )
+                            }
                         )
                         Spacer(modifier = Modifier.height(50.dp))
                         Row(
