@@ -16,6 +16,6 @@ interface Usuarios {
     fun getUsuarioById(@Path("id") id: Int): Call<Usuarios>
 
     @Headers("Content-Type: application/json")
-    @POST("usuarios")
+    @POST("usuario")
     fun postUsuario(@Body usuario: Usuario): Call<Usuarios>
 }
