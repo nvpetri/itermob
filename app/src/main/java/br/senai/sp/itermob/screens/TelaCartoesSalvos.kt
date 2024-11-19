@@ -1,6 +1,7 @@
 package br.senai.sp.itermob.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -110,6 +113,83 @@ fun TelaCartoesSalvos(navController: NavController) {
                         fontWeight = FontWeight.Bold
                     )
                 }
+            }
+        }
+        //rodapé menu
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .offset(y = 390.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            //historico
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable {
+                        navController.navigate("login")
+                    }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_refresh),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //home
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable {
+                        navController.navigate("home")
+
+                    }
+            ){
+                Icon(painter = painterResource(id = R.drawable.home_white),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            //chat
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable {
+                        navController.navigate("fac")
+                    }
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_favorite),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .align(Alignment.Center)
+                )
+            }
+            //config
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFEDE2C4), shape = RoundedCornerShape(40.dp))
+                    .size(60.dp) // Tamanho do background
+                    .clickable { navController.navigate("configuracoes") }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.config_black),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp) // Tamanho do ícone
+                        .align(Alignment.Center)
+                )
             }
         }
     }

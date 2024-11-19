@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.compose.runtime.*
+import androidx.navigation.NavController
 import br.senai.sp.itermob.R
 import br.senai.sp.itermob.model.Usuario
 import br.senai.sp.itermob.service.RetrofitFactory
@@ -55,7 +56,7 @@ import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelaCadastro(navigationController: NavHostController) {
+fun TelaCadastro(navController: NavController) {
 
     var cpf = remember { mutableStateOf("") }
     var nome = remember { mutableStateOf("") }
@@ -77,7 +78,7 @@ fun TelaCadastro(navigationController: NavHostController) {
             modifier = Modifier.padding(10.dp)
         ) {
             IconButton(
-                onClick = { navigationController.navigate("home") },
+                onClick = { navController.navigate("home") },
                 modifier = Modifier.width(50.dp)
             ) {
                 Icon(
@@ -112,6 +113,7 @@ fun TelaCadastro(navigationController: NavHostController) {
                     .height(800.dp)
                     .offset(y = (-80).dp)
             ) {
+
                 CustomTextField(
                     value = cpf.value,
                     onValueChange = { cpf.value = it },
@@ -165,7 +167,7 @@ fun TelaCadastro(navigationController: NavHostController) {
                                     ) {
                                         if (response.isSuccessful) {
                                             Log.i("response", response.body().toString())
-                                            navigationController.navigate("cadastroEndereco")
+                                            navController.navigate("cadastroEndereco")
                                         } else {
                                             Log.i(
                                                 "response",
@@ -214,8 +216,8 @@ fun CustomTextField(
             .padding(top = 10.dp),
         value = value,
         onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        colors = TextFieldDefaults.colors(Color.Transparent),
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+        colors = TextFieldDefaults.colors(Color.Black),
         label = { Text(label, fontSize = 18.sp, color = Color.Gray) }
     )
 }

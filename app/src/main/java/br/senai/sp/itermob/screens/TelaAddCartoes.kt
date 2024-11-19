@@ -136,6 +136,7 @@ fun TelaAddCartoes(navController: NavController) {
                     value = numeroCartao,
                     onValueChange = { numeroCartao = it},
                     label = { Text("Número do cartão")},
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -148,6 +149,7 @@ fun TelaAddCartoes(navController: NavController) {
                     value = data,
                     onValueChange = { data = it},
                     label = { Text("Data de validade")},
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp),

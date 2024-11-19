@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RetrofitFactory {
-    private val BaseURL= "http://10.107.134.28:8080/v1/itermob/"
+    private val BaseURL= "https://itermob-back.onrender.com/v1/itermob/"
 
     private val retrofitFactory = Retrofit
         .Builder()
