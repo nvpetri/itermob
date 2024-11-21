@@ -236,7 +236,7 @@ fun TelaLogin(navigationController: NavHostController) {
                             .height(50.dp)
                             .background(
                                 brush = Brush.horizontalGradient(
-                                    colors = listOf(Color(0xFF77B8FF), Color(0xFF0133D6))
+                                    colors = listOf(Color(0xffFFC222), Color(0xffFFC222))
                                 ),
                                 shape = RoundedCornerShape(30.dp) // Define o formato do botão
                             ),
@@ -253,8 +253,6 @@ fun TelaLogin(navigationController: NavHostController) {
                             fontWeight = FontWeight.Black
                         )
                     }
-
-
 
 
 
