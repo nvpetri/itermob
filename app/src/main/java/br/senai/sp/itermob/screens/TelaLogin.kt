@@ -188,6 +188,7 @@ fun TelaLogin(navigationController: NavHostController) {
 
                     Button(
                         onClick = {
+<<<<<<< HEAD
                             isLoading.value = true
 
                             val login = Login(email = emailState.value, senha = senhaState.value)
@@ -228,6 +229,14 @@ fun TelaLogin(navigationController: NavHostController) {
                                 }
                             })
 
+=======
+                           // val usuarioLogin = LoginUsuario(
+                             //   email = email.value,
+                               // senha = senha.value
+                            //)
+                            //val call = retrofitFactory
+                              //  .getUsuariosService().getMotoristaByEmailSenha(motoristaLogin)
+>>>>>>> eb37a1c9d45040f4ded968b448bdb95a264c3296
 
                         },
                         modifier = Modifier
