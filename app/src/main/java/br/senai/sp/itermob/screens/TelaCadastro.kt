@@ -49,6 +49,9 @@ import br.senai.sp.itermob.model.Usuario
 import br.senai.sp.itermob.service.RetrofitFactory
 import br.senai.sp.itermob.service.Usuarios
 import br.senai.sp.itermob.ui.theme.ItermobTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -165,15 +168,7 @@ fun TelaCadastro(navController: NavController) {
                                         call: Call<Usuarios>,
                                         response: Response<Usuarios>
                                     ) {
-                                        if (response.isSuccessful) {
-                                            Log.i("response", response.body().toString())
-                                            navController.navigate("cadastroEndereco")
-                                        } else {
-                                            Log.i(
-                                                "response",
-                                                response.errorBody()?.string()?: "ERRO!"
-                                            )
-                                        }
+                                                navController.navigate("cadastroEndereco")
                                     }
 
                                     override fun onFailure(

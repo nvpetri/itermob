@@ -8,3 +8,13 @@ data class Usuario(
     val email: String,
     val telefone: String,
 )
+
+data class LoginUsuario(
+    val email: String = "",
+    val senha: String = ""
+)
+
+data class RespostaLogin(
+    val status_code: Int?,
+    val message: String?
+)

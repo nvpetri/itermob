@@ -1,5 +1,7 @@
 package br.senai.sp.itermob.service
 
+import br.senai.sp.itermob.model.LoginUsuario
+import br.senai.sp.itermob.model.RespostaLogin
 import br.senai.sp.itermob.model.Usuario
 import retrofit2.Call
 import retrofit2.http.Body
@@ -18,4 +20,10 @@ interface Usuarios {
     @Headers("Content-Type: application/json")
     @POST("usuario")
     fun postUsuario(@Body usuario: Usuario): Call<Usuarios>
+
+    @POST("")
+    fun getUsuaroiobyEmailSenha(@Body EmailSenha: LoginUsuario): Call<RespostaLogin>
+
+
+
 }

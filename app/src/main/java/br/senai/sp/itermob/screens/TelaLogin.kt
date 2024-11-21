@@ -43,9 +43,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.itermob.R
+import br.senai.sp.itermob.model.LoginUsuario
+import br.senai.sp.itermob.service.RetrofitFactory
 
 @Composable
 fun TelaLogin(navigationController: NavHostController) {
+
+    val retrofitFactory = RetrofitFactory()
 
     var email by remember {
         mutableStateOf("")
@@ -163,7 +167,13 @@ fun TelaLogin(navigationController: NavHostController) {
                 ){
                     Button(
                         onClick = {
-                            navigationController.navigate("home")
+                            val usuarioLogin = LoginUsuario(
+                                email = email.value,
+                                senha = senha.value
+                            )
+                            val call = retrofitFactory
+                                .getUsuariosService().getMotoristaByEmailSenha(motoristaLogin)
+
                         },
                         modifier = Modifier
                             .width(150.dp)
