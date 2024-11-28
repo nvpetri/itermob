@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
@@ -44,6 +45,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.itermob.R
 import br.senai.sp.itermob.model.Login
+import br.senai.sp.itermob.model.LoginUsuario
+import br.senai.sp.itermob.model.RespostaLogin
 import br.senai.sp.itermob.model.UsuarioLogin
 import br.senai.sp.itermob.service.RetrofitFactory
 import retrofit2.Call
@@ -185,85 +188,61 @@ fun TelaLogin(navigationController: NavHostController) {
                         .height(400.dp),
                     horizontalAlignment  = Alignment.CenterHorizontally
                 ){
-
                     Button(
                         onClick = {
-<<<<<<< HEAD
                             isLoading.value = true
-
-                            val login = Login(email = emailState.value, senha = senhaState.value)
+                            val login = LoginUsuario(email = emailState.value, senha = senhaState.value)
 
                             RetrofitFactory()
-                                .getUsuariosService()
-                                .loginUsuario(login)
-                                .enqueue(
-                                object : Callback<UsuarioLogin> {
-                                override fun onResponse(call: Call<UsuarioLogin>, response: Response<UsuarioLogin>) {
-                                    isLoading.value = false
+                                .enviarLogin(login)
+                                .enqueue(object : Callback<RespostaLogin> { // Ajustar o tipo do callback
+                                    override fun onResponse(call: Call<RespostaLogin>, response: Response<RespostaLogin>) {
+                                        isLoading.value = false
 
-                                    if (response.isSuccessful) {
-                                        val usuario = response.body()
-                                        if (usuario != null) {
-                                            // Sucesso! O login foi realizado com sucesso.
-                                            // Navega para a TelaHome, passando o id do usuário ou token se necessário
-                                            val idUsuario = usuario.id_usuario ?: 0
-                                            navigationController.navigate("telaInicio/$idUsuario")
+                                        if (response.isSuccessful) {
+                                            val respostaLogin = response.body() // Obter o corpo da resposta
+                                            if (respostaLogin != null && respostaLogin.status_code == 200) {
+                                                navigationController.navigate("home") // Navega para a home
+                                            } else {
+                                                erroLoginState.value = true
+                                                mensagemErroState.value = respostaLogin?.message ?: "Erro desconhecido."
+                                                Log.e("TelaLogin", "Resposta bem-sucedida, mas erro de autenticação.")
+                                            }
                                         } else {
                                             erroLoginState.value = true
-                                            mensagemErroState.value = "Erro: credenciais inválidas."
-                                            Log.e("TelaLogin", "Corpo da resposta é nulo")
+                                            mensagemErroState.value = "Erro: credenciais inválidas. Código: ${response.code()}"
+                                            Log.e("TelaLogin", "Resposta não bem sucedida: ${response.errorBody()?.string()}")
                                         }
-                                    } else {
-                                        erroLoginState.value = true
-                                        mensagemErroState.value = "Erro: credenciais inválidas."
-                                        Log.e("TelaLogin", "Resposta não bem sucedida: ${response.code()}")
                                     }
-                                }
 
-
-                                override fun onFailure(call: Call<UsuarioLogin>, t: Throwable) {
-                                    Log.i("Falhou:", t.toString())
-                                    isLoading.value = false
-                                    erroLoginState.value = true
-                                    mensagemErroState.value = "Erro de conexão: ${t.message}"
-                                }
-                            })
-
-=======
-                           // val usuarioLogin = LoginUsuario(
-                             //   email = email.value,
-                               // senha = senha.value
-                            //)
-                            //val call = retrofitFactory
-                              //  .getUsuariosService().getMotoristaByEmailSenha(motoristaLogin)
->>>>>>> eb37a1c9d45040f4ded968b448bdb95a264c3296
-
+                                    override fun onFailure(call: Call<RespostaLogin>, t: Throwable) {
+                                        isLoading.value = false
+                                        erroLoginState.value = true
+                                        mensagemErroState.value = "Erro de conexão: ${t.message}"
+                                        Log.e("TelaLogin", "Falha na requisição: $t")
+                                    }
+                                })
                         },
                         modifier = Modifier
                             .height(46.dp)
                             .width(300.dp)
-                            .height(50.dp)
                             .background(
                                 brush = Brush.horizontalGradient(
                                     colors = listOf(Color(0xffFFC222), Color(0xffFFC222))
                                 ),
-                                shape = RoundedCornerShape(30.dp) // Define o formato do botão
+                                shape = RoundedCornerShape(30.dp)
                             ),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent // Para garantir que o gradiente seja visível
+                            containerColor = Color.Transparent
                         ),
-                        contentPadding = PaddingValues() // Remove o padding padrão para o gradiente preencher todo o botão
-                    )
-                    {
-                        // Texto dentro do botao
+                        contentPadding = PaddingValues()
+                    ) {
                         Text(
-                            text = "ENTRAR",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Black
+                            text = if (isLoading.value) "Carregando..." else "Entrar",
+                            color = Color.White,
+                            style = MaterialTheme.typography.button
                         )
                     }
-
-
 
                     Spacer(modifier = Modifier.height(15.dp))
                     Row{

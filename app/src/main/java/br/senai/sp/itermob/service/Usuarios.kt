@@ -14,23 +14,17 @@ import retrofit2.http.Path
 
 interface Usuarios {
     @GET("usuarios")
-    fun getUsuarios(): Call<List<Usuarios>>
+    fun getUsuarios(): Call<List<Usuario>>
 
     @GET("usuarios/{id}")
-    fun getUsuarioById(@Path("id") id: Int): Call<Usuarios>
+    fun getUsuarioById(@Path("id") id: Int): Call<Usuario>
 
     @Headers("Content-Type: application/json")
     @POST("usuario")
-    fun postUsuario(@Body usuario: Usuario): Call<Usuarios>
+    fun postUsuario(@Body usuario: Usuario): Call<Usuario>
 
-    @POST("")
-    fun getUsuaroiobyEmailSenha(@Body EmailSenha: LoginUsuario): Call<RespostaLogin>
-
-
-    // End point - Login
-
-    @POST("loginUsuario")
-    fun loginUsuario(@Body login: Login): Call<UsuarioLogin>
-
-
+    @POST("login")
+    fun enviarLogin(@Body login: LoginUsuario): Call<RespostaLogin> // Ajustar o tipo para o modelo correto
 }
+
+

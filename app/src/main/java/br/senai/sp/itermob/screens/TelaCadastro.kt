@@ -66,6 +66,8 @@ fun TelaCadastro(navController: NavController) {
     var sobrenome = remember { mutableStateOf("") }
     var email = remember { mutableStateOf("") }
     var telefone = remember { mutableStateOf("") }
+    var senha = remember { mutableStateOf("") }
+
     val retrofitFactory = RetrofitFactory()
 
     Surface(
@@ -134,18 +136,24 @@ fun TelaCadastro(navController: NavController) {
                     label = "Sobrenome"
                 )
                 CustomTextField(
-                    value = email.value,
-                    onValueChange = { email.value = it },
-                    label = "E-mail"
-                )
-                CustomTextField(
                     value = telefone.value,
                     onValueChange = { telefone.value = it },
                     label = "Telefone",
                     keyboardType = KeyboardType.Number
                 )
+                CustomTextField(
+                    value = email.value,
+                    onValueChange = { email.value = it },
+                    label = "E-mail"
+                )
+                CustomTextField(
+                    value = senha.value,
+                    onValueChange = { senha.value = it },
+                    label = "Senha",
 
-                Spacer(modifier = Modifier.height(50.dp))
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier
                         .width(400.dp)
@@ -168,7 +176,7 @@ fun TelaCadastro(navController: NavController) {
                                         call: Call<Usuarios>,
                                         response: Response<Usuarios>
                                     ) {
-                                                navController.navigate("cadastroEndereco")
+                                                navController.navigate("cadastroFinalizado")
                                     }
 
                                     override fun onFailure(
