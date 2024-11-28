@@ -24,7 +24,7 @@ interface Usuarios {
     fun postUsuario(@Body usuario: Usuario): Call<Usuario>
 
     @POST("login")
-    fun enviarLogin(@Body login: LoginUsuario): Call<RespostaLogin> // Ajustar o tipo para o modelo correto
+    fun enviarLogin(@Body login: LoginUsuario): Call<RespostaLogin>
 }
 
 
