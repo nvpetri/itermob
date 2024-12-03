@@ -29,7 +29,7 @@ class RetrofitFactory {
 
 
 
-    fun enviarLogin(): Usuarios {
+    fun enviarLoginService(): Usuarios {
         return retrofitFactory.create(Usuarios::class.java)
     }
 }

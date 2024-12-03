@@ -169,23 +169,25 @@ fun TelaCadastro(navController: NavController) {
                                 email = email.value,
                                 telefone = telefone.value
                             )
+
+                            // Substitua por este bloco ajustado
+                            val retrofitFactory = RetrofitFactory()
+
                             val usuarios = retrofitFactory.postUsuarioService()
-                            usuarios.postUsuario(usuario)
-                                .enqueue(object : Callback<Usuarios> {
-                                    override fun onResponse(
-                                        call: Call<Usuarios>,
-                                        response: Response<Usuarios>
-                                    ) {
-                                                navController.navigate("cadastroFinalizado")
-                                    }
 
-                                    override fun onFailure(
-                                        call: Call<Usuarios>, t: Throwable
-                                    ) {
-                                        Log.i("response", t.toString())
-
+                            usuarios.postUsuario(usuario).enqueue(object : Callback<Usuario> {
+                                override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+                                    if (response.isSuccessful) {
+                                        navController.navigate("cadastroFinalizado")
+                                    } else {
+                                        Log.e("response", "Erro ao cadastrar: Código ${response.code()}, Mensagem: ${response.message()}")
                                     }
-                                })
+                                }
+
+                                override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                                    Log.e("response", "Falha na requisição: ${t.message}")
+                                }
+                            })
                         },
                         modifier = Modifier
                             .width(150.dp)

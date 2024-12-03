@@ -37,17 +37,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.itermob.R
-import br.senai.sp.itermob.model.Login
 import br.senai.sp.itermob.model.LoginUsuario
 import br.senai.sp.itermob.model.RespostaLogin
-import br.senai.sp.itermob.model.UsuarioLogin
+import br.senai.sp.itermob.model.Usuario
 import br.senai.sp.itermob.service.RetrofitFactory
 import retrofit2.Call
 import retrofit2.Response
@@ -57,9 +54,8 @@ import retrofit2.Callback
 @Composable
 fun TelaLogin(navigationController: NavHostController) {
 
-
-
     val retrofitFactory = RetrofitFactory()
+    val usuariosService = retrofitFactory.postUsuarioService()
 
     var emailState = remember {
         mutableStateOf("")
@@ -191,37 +187,23 @@ fun TelaLogin(navigationController: NavHostController) {
                     Button(
                         onClick = {
                             isLoading.value = true
-                            val login = LoginUsuario(email = emailState.value, senha = senhaState.value)
+                            val loginData = LoginUsuario(email = emailState.value, senha = senhaState.value)
 
-                            RetrofitFactory()
-                                .enviarLogin(login)
-                                .enqueue(object : Callback<RespostaLogin> { // Ajustar o tipo do callback
-                                    override fun onResponse(call: Call<RespostaLogin>, response: Response<RespostaLogin>) {
-                                        isLoading.value = false
-
-                                        if (response.isSuccessful) {
-                                            val respostaLogin = response.body() // Obter o corpo da resposta
-                                            if (respostaLogin != null && respostaLogin.status_code == 200) {
-                                                navigationController.navigate("home") // Navega para a home
-                                            } else {
-                                                erroLoginState.value = true
-                                                mensagemErroState.value = respostaLogin?.message ?: "Erro desconhecido."
-                                                Log.e("TelaLogin", "Resposta bem-sucedida, mas erro de autenticação.")
-                                            }
-                                        } else {
-                                            erroLoginState.value = true
-                                            mensagemErroState.value = "Erro: credenciais inválidas. Código: ${response.code()}"
-                                            Log.e("TelaLogin", "Resposta não bem sucedida: ${response.errorBody()?.string()}")
-                                        }
+                            usuariosService.enviarLogin(loginData).enqueue(object : Callback<Usuario> {
+                                override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+                                    if (response.isSuccessful) {
+                                        val usuario = response.body()
+                                        Log.i("Login", "Bem-vindo, ${usuario?.nome}")
+                                        navigationController.navigate("home")
+                                    } else {
+                                        Log.e("Login", "Erro ao fazer login: ${response.code()}")
                                     }
+                                }
 
-                                    override fun onFailure(call: Call<RespostaLogin>, t: Throwable) {
-                                        isLoading.value = false
-                                        erroLoginState.value = true
-                                        mensagemErroState.value = "Erro de conexão: ${t.message}"
-                                        Log.e("TelaLogin", "Falha na requisição: $t")
-                                    }
-                                })
+                                override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                                    Log.e("Login", "Erro de conexão: ${t.message}")
+                                }
+                            })
                         },
                         modifier = Modifier
                             .height(46.dp)

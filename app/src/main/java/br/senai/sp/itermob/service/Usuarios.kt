@@ -1,10 +1,7 @@
 package br.senai.sp.itermob.service
 
-import br.senai.sp.itermob.model.Login
 import br.senai.sp.itermob.model.LoginUsuario
-import br.senai.sp.itermob.model.RespostaLogin
 import br.senai.sp.itermob.model.Usuario
-import br.senai.sp.itermob.model.UsuarioLogin
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,8 +20,8 @@ interface Usuarios {
     @POST("usuario")
     fun postUsuario(@Body usuario: Usuario): Call<Usuario>
 
-    @POST("login")
-    fun enviarLogin(@Body login: LoginUsuario): Call<RespostaLogin>
+    @POST("/login")
+    fun enviarLogin(@Body usuario: LoginUsuario): Call<Usuario>
 }
 
 
