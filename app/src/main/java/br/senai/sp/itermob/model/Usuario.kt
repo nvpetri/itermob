@@ -7,6 +7,7 @@ data class Usuario(
     val sobrenome: String,
     val email: String,
     val telefone: String,
+    val senha: String,
 )
 
 data class LoginUsuario(

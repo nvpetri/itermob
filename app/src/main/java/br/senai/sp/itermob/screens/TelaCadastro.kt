@@ -1,7 +1,6 @@
 package br.senai.sp.itermob.screens
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,10 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -42,16 +39,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.compose.runtime.*
 import androidx.navigation.NavController
 import br.senai.sp.itermob.R
 import br.senai.sp.itermob.model.Usuario
 import br.senai.sp.itermob.service.RetrofitFactory
-import br.senai.sp.itermob.service.Usuarios
 import br.senai.sp.itermob.ui.theme.ItermobTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -167,7 +159,8 @@ fun TelaCadastro(navController: NavController) {
                                 nome = nome.value,
                                 sobrenome = sobrenome.value,
                                 email = email.value,
-                                telefone = telefone.value
+                                telefone = telefone.value,
+                                senha = senha.value
                             )
 
                             // Substitua por este bloco ajustado
