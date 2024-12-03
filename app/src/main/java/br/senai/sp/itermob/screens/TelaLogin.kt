@@ -1,6 +1,7 @@
 package br.senai.sp.itermob.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,8 +29,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -56,6 +59,13 @@ fun TelaLogin(navigationController: NavHostController) {
 
     val retrofitFactory = RetrofitFactory()
     val usuariosService = retrofitFactory.postUsuarioService()
+    val context = LocalContext.current
+
+
+    var errorMessage by remember {
+        mutableStateOf("")
+    }
+
 
     var emailState = remember {
         mutableStateOf("")
@@ -197,10 +207,16 @@ fun TelaLogin(navigationController: NavHostController) {
                                         navigationController.navigate("home")
                                     } else {
                                         Log.e("Login", "Erro ao fazer login: ${response.code()}")
+                                        errorMessage = "Erro no login! Email e/ou senha incorreto(s)."
+                                        // Mostrar o Toast com a mensagem de erro
+                                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                                     }
                                 }
 
                                 override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                                    errorMessage = "Login failed! Invalid credentials."
+                                    // Mostrar o Toast com a mensagem de erro
+                                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                                     Log.e("Login", "Erro de conexão: ${t.message}")
                                 }
                             })
