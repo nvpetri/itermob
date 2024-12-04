@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,7 +22,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
@@ -38,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,6 +52,31 @@ fun TelaHome(navController: NavController) {
     var clickCount by remember { mutableStateOf(sharedPreferences.getInt("click_count", 0)) }
 
     val cameraPositionState = rememberCameraPositionState()
+
+    // Estado para armazenar as rotas favoritas e seus tempos
+    var favoriteRoutes by remember {
+        mutableStateOf(
+            listOf(
+                FavoriteRoute("25 - Jd. Popular", 10), // Tempo em minutos
+                FavoriteRoute("831 - Trevo Alphaville", 7)
+            )
+        )
+    }
+
+    // Atualização dos tempos das rotas a cada 10 segundos
+    LaunchedEffect(favoriteRoutes) {
+        while (true) {
+            delay(10000) // Espera 10 segundos
+            favoriteRoutes = favoriteRoutes.map {
+                // Decrementa o tempo se for maior que 0
+                if (it.time > 0) {
+                    it.copy(time = it.time - 1)
+                } else {
+                    it // Tempo já chegou a 0
+                }
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         getLastKnownLocation(fusedLocationClient, context) { location ->
@@ -105,7 +129,7 @@ fun TelaHome(navController: NavController) {
         // Mapa com localização atual
         Box(
             modifier = Modifier
-                .weight(1f)
+                .weight(0.6f)
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .border(2.dp, Color.White, RoundedCornerShape(20.dp))
@@ -137,9 +161,13 @@ fun TelaHome(navController: NavController) {
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            FavoriteRouteCard("25 - Jd. Popular", "5 min")
-            Spacer(modifier = Modifier.height(8.dp))
-            FavoriteRouteCard("831 - Trevo Alphaville", "5 min")
+            // Exibir rotas favoritas dinamicamente
+            favoriteRoutes.forEach { route ->
+                FavoriteRouteCard(
+                    routeName = route.name,
+                    time = "${route.time} min"
+                )
+            }
         }
 
         // Rodapé com Ícones
@@ -200,7 +228,6 @@ fun Footer(navController: NavController, clickCount: Int, onClick: () -> Unit) {
     }
 }
 
-
 @Composable
 fun FavoriteRouteCard(routeName: String, time: String) {
     Row(
@@ -218,10 +245,11 @@ fun FavoriteRouteCard(routeName: String, time: String) {
                 contentDescription = "Som",
                 modifier = Modifier.size(20.dp)
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(10.dp))
             Text(text = time)
         }
     }
+    Spacer(modifier = Modifier.width(4.dp))
 }
 
 @Composable
@@ -266,16 +294,8 @@ fun getLastKnownLocation(
             e.printStackTrace()
         }
     } else {
-        // Permissão não concedida; tratar ou notificar o usuário
-        println("Permissão de localização não concedida.")
+        // Permissão não concedida
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun TelaHomePreview() {
-    val navController = rememberNavController()
-    ItermobTheme {
-        TelaHome(navController = navController)
-    }
-}
+data class FavoriteRoute(val name: String, val time: Int)
