@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +47,10 @@ fun TelaHome(navController: NavController) {
 
     var currentLocation by remember { mutableStateOf<LatLng?>(null) }
     var pesquisa by remember { mutableStateOf("") }
+
+    // Carrega o número de cliques de SharedPreferences
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    var clickCount by remember { mutableStateOf(sharedPreferences.getInt("click_count", 0)) }
 
     val cameraPositionState = rememberCameraPositionState()
 
@@ -138,12 +143,63 @@ fun TelaHome(navController: NavController) {
         }
 
         // Rodapé com Ícones
-        Footer(navController = navController)
+        Footer(navController = navController, clickCount = clickCount, onClick = {
+            // Alterna entre as telas
+            clickCount++
+            // Salva o número de cliques em SharedPreferences
+            sharedPreferences.edit().putInt("click_count", clickCount).apply()
+
+            if (clickCount % 2 == 1) {
+                navController.navigate("login")
+            } else {
+                navController.navigate("historico")
+            }
+        })
     }
 
     // Solicitação de Permissões de Localização
     LocationPermissionRequest()
 }
+
+@Composable
+fun Footer(navController: NavController, clickCount: Int, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp)
+            .background(Color(0xFFF4C430)),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        listOf(
+            R.drawable.icon_refresh to "refresh",
+            R.drawable.icon_home to "home",
+            R.drawable.icon_favorite to "fac",
+            R.drawable.icon_settings to "configuracoes"
+        ).forEach { (icon, route) ->
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
+                    .size(45.dp)
+                    .clickable {
+                        // A lógica de navegação está agora aqui
+                        if (route == "refresh") {
+                            onClick()
+                        } else {
+                            navController.navigate(route)
+                        }
+                    }
+            ) {
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = "",
+                    modifier = Modifier.size(35.dp).align(Alignment.Center)
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 fun FavoriteRouteCard(routeName: String, time: String) {
@@ -164,38 +220,6 @@ fun FavoriteRouteCard(routeName: String, time: String) {
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(text = time)
-        }
-    }
-}
-
-@Composable
-fun Footer(navController: NavController) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(64.dp)
-            .background(Color(0xFFF4C430)),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        listOf(
-            R.drawable.icon_refresh to "login",
-            R.drawable.icon_home to "home",
-            R.drawable.icon_favorite to "fac",
-            R.drawable.icon_settings to "configuracoes"
-        ).forEach { (icon, route) ->
-            Box(
-                modifier = Modifier
-                    .background(Color(0xFFFFF6E0), shape = RoundedCornerShape(40.dp))
-                    .size(45.dp)
-                    .clickable { navController.navigate(route) }
-            ) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = "",
-                    modifier = Modifier.size(35.dp).align(Alignment.Center)
-                )
-            }
         }
     }
 }
@@ -246,7 +270,6 @@ fun getLastKnownLocation(
         println("Permissão de localização não concedida.")
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

@@ -27,6 +27,7 @@ import br.senai.sp.itermob.screens.TelaDados
 import br.senai.sp.itermob.screens.TelaEnderecosSalvos
 import br.senai.sp.itermob.screens.TelaFac
 import br.senai.sp.itermob.screens.TelaFeedback
+import br.senai.sp.itermob.screens.TelaHistorico
 import br.senai.sp.itermob.screens.TelaHome
 import br.senai.sp.itermob.screens.TelaLogin
 import br.senai.sp.itermob.screens.TelaPoliticas
@@ -62,6 +63,7 @@ class MainActivity : ComponentActivity() {
                     composable(route = "enderecosSalvos") { TelaEnderecosSalvos(navigationControl) }
                     composable(route = "addEnderecos") { TelaAddEndereco(navigationControl) }
                     composable(route = "politicas") { TelaPoliticas(navigationControl) }
+                    composable(route = "historico") { TelaHistorico(navigationControl) }
                 }
             }
         }
